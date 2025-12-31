@@ -1,0 +1,8 @@
+
+> ainova-backend-proxy@1.0.0 start
+> node server.js
+
+Server running on http://localhost:3000
+[API] POST /api/chat — ip=::1 host=localhost auth=Bearer dev_... message_preview="kk"
+[API] POST /api/chat — ip=::1 host=localhost auth=Bearer dev_... message_preview="bbbbb"
+[API] POST /api/chat — ip=::1 host=localhost auth=Bearer dev_... message_preview="gönder"

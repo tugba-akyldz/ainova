@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AINOVA | Yapay Zeka Destekli Sosyal Medya Büyümesi</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CDNs for libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css"> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body class="text-gray-800">
+    <div id="content-wrapper">
+    <header class="sticky top-0 z-50 transition duration-300">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            
+            <a href="#" class="flex items-center space-x-2 text-xl sm:text-2xl font-extrabold tracking-tight">
+                <img src="images/ainova.logo.jpg" 
+                     alt="AINOVA Startup Logo" 
+                     class="h-8 sm:h-10 w-auto"> 
+                <span class="header-nova text-white">AINOVA</span>
+            </a>
+            
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="#ozellikler" class="text-gray-400 hover:text-white transition duration-300 font-medium neon-blue-hover">Özellikler</a>
+                <a href="#kullanici" class="text-gray-400 hover:text-white transition duration-300 font-medium neon-blue-hover">Kimler İçin</a>
+                <a href="#yorumlar" class="text-gray-400 hover:text-white transition duration-300 font-medium neon-blue-hover">Yorumlar</a>
+                <a href="#fiyatlandirma" class="text-gray-400 hover:text-white transition duration-300 font-medium neon-blue-hover">Fiyatlandırma</a>
+                <a href="#sss" class="text-gray-400 hover:text-white transition duration-300 font-medium neon-blue-hover">SSS</a>
+                
+                <a href="#fiyatlandirma" class="px-4 py-2 h-10 bg-neon-pink text-gray-900 font-semibold rounded-full hover:opacity-80 transition duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                    🚀 Planlar
+                </a>
+            </nav>
+            
+            <div class="relative ml-4 mr-2 cursor-pointer group" id="open-cart-btn">
+                <svg class="w-8 h-8 text-white group-hover:text-neon-blue transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-neon-pink text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+            </div>
+
+            <div id="auth-controls" class="hidden sm:flex flex-nowrap items-center space-x-3">
+                <button id="login-btn" class="px-4 py-2 h-10 rounded-full border border-neon-blue/50 text-white bg-white/5 hover:bg-white/10 transition duration-200 flex items-center space-x-2">
+                    <span>Giriş Yap</span>
+                </button>
+                <div id="user-chip" class="hidden flex items-center space-x-2">
+                    <div class="px-3 py-2 rounded-full bg-white/10 text-white text-sm flex items-center space-x-2 border border-white/10">
+                        <span class="text-xs px-2 py-1 bg-neon-pink/20 text-neon-pink rounded-full">Pro</span>
+                        <span id="user-name" class="font-semibold">Kullanıcı</span>
+                    </div>
+                    <button id="logout-btn" class="px-3 py-2 rounded-full text-gray-300 bg-white/5 hover:bg-white/10 border border-white/10 text-sm whitespace-nowrap">Çıkış</button>
+                </div>
+            </div>
+
+            <button id="mobile-menu-button" class="lg:hidden text-white focus:outline-none p-2 ml-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <nav id="mobile-menu" class="mobile-menu bg-gray-900 lg:hidden px-4">
+            <a href="#ozellikler" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">Özellikler</a>
+            <a href="#kullanici" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">Kimler İçin</a>
+            <a href="#crm-panel" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">AI Panel</a>
+            <a href="#yorumlar" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">Yorumlar</a>
+            <a href="#fiyatlandirma" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">Fiyatlandırma</a>
+            <a href="#sss" class="block py-2 text-gray-400 hover:text-white border-b border-gray-800">SSS</a>
+            <button id="mobile-login-btn" class="w-full my-3 py-3 bg-neon-blue text-gray-900 font-semibold rounded-full">Giriş Yap</button>
+            <div id="mobile-user-chip" class="hidden w-full my-3 py-3 bg-white/5 text-white font-semibold rounded-full border border-white/10 text-center">Hoş geldin, <span id="mobile-user-name">Kullanıcı</span></div>
+        </nav>
+    </header>
+
+    <div id="login-modal" class="auth-modal hidden">
+        <div class="auth-modal__overlay"></div>
+        <div class="auth-modal__panel">
+            <button class="auth-modal__close" id="login-close">&times;</button>
+            <div class="auth-modal__header">
+                <div class="auth-badge">Yeni</div>
+                <h3>AINOVA Hesabına Giriş Yap</h3>
+                <p>Hesabınla kişiselleştirilmiş öneriler ve kaydedilmiş sepet erişimi.</p>
+            </div>
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active">Giriş Yap</button>
+                <button id="tab-register" class="auth-tab">Kaydol</button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <label class="auth-field">
+                    <span>E-posta</span>
+                    <input type="email" id="login-email" placeholder="ornek@mail.com" required>
+                </label>
+                <label class="auth-field auth-password">
+                    <span>Şifre</span>
+                    <div class="auth-password__wrap">
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                        <button type="button" class="auth-eye" data-target="login-password">👁️</button>
+                    </div>
+                </label>
+                <button type="submit" class="auth-submit">Giriş Yap</button>
+                <p class="auth-hint">Demo giriş: bilgileriniz tarayıcıda saklanır.</p>
+            </form>
+            <form id="register-form" class="auth-form hidden">
+                <label class="auth-field">
+                    <span>Ad Soyad</span>
+                    <input type="text" id="register-name" placeholder="Adınız Soyadınız" required>
+                </label>
+                <label class="auth-field">
+                    <span>E-posta</span>
+                    <input type="email" id="register-email" placeholder="ornek@email.com" required>
+                </label>
+                <label class="auth-field auth-password">
+                    <span>Şifre</span>
+                    <div class="auth-password__wrap">
+                        <input type="password" id="register-password" placeholder="••••••••" required>
+                        <button type="button" class="auth-eye" data-target="register-password">👁️</button>
+                    </div>
+                </label>
+                <label class="auth-field auth-password">
+                    <span>Şifre Tekrar</span>
+                    <div class="auth-password__wrap">
+                        <input type="password" id="register-password-confirm" placeholder="••••••••" required>
+                        <button type="button" class="auth-eye" data-target="register-password-confirm">👁️</button>
+                    </div>
+                </label>
+                <button type="submit" class="auth-submit">Kaydol</button>
+                <p class="auth-hint">Demo kayıt: verileriniz yalnızca bu tarayıcıda tutulur.</p>
+            </form>
+        </div>
+    </div>
+
+    <main class="pt-16 pb-20 md:pb-32 container mx-auto px-4 sm:px-6 text-center">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                <span class="neon-blue neon-blue-hover">Yapay Zekayla</span> <span class="neon-blue neon-blue-hover">Trendleri</span> <span class="neon-blue neon-blue-hover">Yakala</span>
+                <span class="neon-pink neon-pink-hover">AINOVA'yla</span> <span class="neon-blue neon-blue-hover">Parla</span>
+            </h1>
+            
+            <p class="text-lg sm:text-xl text-gray-400 mb-10 max-w-3xl mx-auto font-light">
+                AINOVA ile içerik stratejinizi bir daha asla sorgulamayın. Yapay zeka ile tam hedefine ulaşan içerikler üretin.
+            </p>
+            
+            <a href="#fiyatlandirma" class="inline-block px-10 py-4 h-12 text-lg font-bold text-gray-900 bg-neon-pink rounded-full hover:opacity-80 transition duration-300 shadow-2xl transform hover:scale-105 flex items-center justify-center mx-auto w-full max-w-sm sm:max-w-md">
+                Veriyle Büyümeye Hemen Başla!
+            </a>
+        </div>
+        
+        <div class="mt-16">
+            <div class="mx-auto max-w-4xl shadow-2xl rounded-xl overflow-hidden border border-gray-700">
+                <div class="relative h-64 sm:h-96 w-full flex items-center justify-center text-white text-xl">
+                    <video class="absolute inset-0 w-full h-full object-cover" src="images/1.mp4" autoplay loop muted playsinline></video>
+                    <div class="absolute inset-0 bg-black/40"></div>
+                    <div class="z-10 text-center relative">
+                        <p class="text-sm font-mono text-neon-blue mb-2 stat-glow">
+                            [STATUS] AI Trend Analizi Başlatıldı: Aktif İzleme
+                        </p>
+                        <h3 class="text-4xl font-extrabold text-white mb-2">
+                            <span class="neon-pink">99.8%</span> Doğruluk Oranı
+                        </h3>
+                        <p class="text-lg text-gray-300">
+                            Haftalık 5M+ içerik taramasıyla hedef kitlenizi anında bulun.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="bg-gray-950/80 py-12">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="flex flex-wrap justify-around items-center text-center gap-y-6">
+                <div class="w-1/3 sm:w-auto px-2">
+                    <p class="text-4xl font-black neon-blue stat-glow">15K+</p>
+                    <p class="text-sm text-gray-400 mt-1">Aktif Kullanıcı</p>
+                </div>
+                <div class="w-1/3 sm:w-auto px-2">
+                    <p class="text-4xl font-black neon-pink stat-glow">%72</p>
+                    <p class="text-sm text-gray-400 mt-1">Etkileşim Artışı (Ort.)</p>
+                </div>
+                <div class="w-1/3 sm:w-auto px-2">
+                    <p class="text-4xl font-black text-white stat-glow">5M+</p>
+                    <p class="text-sm text-gray-400 mt-1">Haftalık Analiz Edilen Veri</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="logo-strip-bg py-8">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h3 class="text-sm md:text-lg font-medium text-gray-400 mb-6">
+                <span class="header-nova">Girişim Dergileri, Teknoloji Bloggerları ve Öncü Influencerlar</span> Tarafından Onaylandı.
+            </h3>
+            <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 sm:gap-x-16 opacity-75">
+                <div class="text-xl sm:text-3xl font-bold text-gray-500 hover:text-white transition duration-300 grayscale hover:grayscale-0">TECH <span class="header-nova">WEEK</span></div>
+                <div class="text-xl sm:text-3xl font-bold text-gray-500 hover:text-white transition duration-300 grayscale hover:grayscale-0">CAMPUS <span class="neon-pink">HUB</span></div>
+                <div class="text-xl sm:text-3xl font-bold text-gray-500 hover:text-white transition duration-300 grayscale hover:grayscale-0">DATA <span class="text-white">VENTURES</span></div>
+                <div class="text-xl sm:text-3xl font-bold text-gray-500 hover:text-white transition duration-300 grayscale hover:grayscale-0"><span class="neon-pink">INFLUENCER</span>.AI</div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="ozellikler" class="py-20 container mx-auto px-4 sm:px-6">
+        <div class="text-center mb-12 max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-5xl font-extrabold mb-4 text-white">AINOVA'yı Diğerlerinden Ayıran Nedir?</h2>
+            <p class="text-lg text-gray-400">Sadece veri göstermiyoruz, veriyi eyleme dönüştürüyoruz. İşte temel fark yaratan yetenekler:</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-4 sm:gap-6">
+            <div class="lg:col-span-2 lg:row-span-2 p-6 sm:p-10 bg-gray-950/80 text-white rounded-3xl shadow-xl flex flex-col justify-between">
+                <div>
+                    <span class="text-5xl sm:text-6xl mb-4 block neon-pink">✨</span>
+                    <h3 class="text-3xl sm:text-5xl font-extrabold mb-3">Mini Marka Kimliği Oluşturma</h3>
+                    <p class="text-lg sm:text-xl text-gray-400">Rastgele öneri yok. Uygulama, Logo, Renk Paleti ve Anahtar Kelimelerinizi analiz eder.</p>
+                </div>
+            </div>
+            <div class="p-6 sm:p-8 bg-neon-blue bg-opacity-10 text-white rounded-3xl shadow-lg border border-neon-blue/30 flex flex-col justify-center">
+                <span class="text-4xl sm:text-5xl mb-3 block header-nova">📊</span>
+                <h3 class="text-xl sm:text-2xl font-bold mb-2">Popülerlik Skoru</h3>
+                <p class="text-gray-400 text-sm">Trendlerin sadece ne olduğunu değil, ne kadar sıcak olduğunu görün.</p>
+            </div>
+            <div class="p-6 sm:p-8 bg-gray-950/80 text-white rounded-3xl shadow-lg border border-gray-700 flex flex-col justify-center">
+                <span class="text-4xl sm:text-5xl mb-3 block neon-pink">📈</span>
+                <h3 class="text-xl sm:text-2xl font-bold mb-2">Görsel Performans Grafikleri</h3>
+                <p class="text-gray-400 text-sm">Sıkıcı tablolara son. Aylık Görüntülenme Sayısı ve Etkileşim Oranını takip edin.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- TREND ÜRETİCİ -->
+        <section id="viral-generator" class="py-20 border-t border-gray-800">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-4 neon-pink">Trend Video Fikri Üreticisi</h2>
+                <p class="text-gray-400 mb-10 max-w-2xl mx-auto">İstediğiniz konuyu yazın, AI size viral olabilecek video fikirleri önersin!</p>
+                <div class="max-w-3xl mx-auto glass-card p-10 rounded-3xl">
+                    <div class="flex gap-4 mb-6 flex-col sm:flex-row">
+                        <input type="text" id="viral-input" placeholder="Örn: Teknoloji, Yemek, Komedi, Spor..." class="flex-1 bg-gray-900/50 backdrop-blur-sm text-white px-5 py-4 rounded-xl border border-gray-600 focus:border-pink-500 outline-none transition">
+                        <button id="viral-btn" class="btn-primary text-white px-10 py-4 rounded-xl font-semibold whitespace-nowrap">Fikir Üret</button>
+                    </div>
+                    <div id="viral-output" class="glass-card p-8 rounded-2xl text-left text-gray-300 min-h-[200px]">
+                        <div class="text-center text-gray-500">
+                            <div class="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-cyan-400 to-pink-500 flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-3xl text-white"></i>
+                            </div>
+                            <p class="text-lg">Bir konu yazın ve AI size trend video fikirleri üretsin!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section id="kullanici" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl sm:text-5xl font-extrabold mb-4 text-white">AINOVA: Herkes İçin Kişiselleştirilmiş Strateji</h2>
+            <p class="text-lg text-gray-400 mb-12 max-w-3xl mx-auto">Hangi kategoriye ait olursanız olun, AINOVA içerik stratejinizi sadece size özel olarak yeniden tanımlar.</p>
+        </div>
+        <div class="container mx-auto px-4 sm:px-6 space-y-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="lg:order-2">
+                    <span class="text-sm font-bold uppercase neon-pink">Influencer & İçerik Üreticileri</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold mt-2 mb-3 text-white">Etkileşiminizi Max'a Çıkarın</h3>
+                    <p class="text-base sm:text-lg text-gray-400 mb-4">Hangi Reel formatlarının viral olacağını öğrenin. Paylaşım saatlerini optimize edin.</p>
+                    <a href="#fiyatlandirma" class="font-semibold neon-pink hover:underline text-base">Influencer Stratejilerini Keşfet →</a>
+                </div>
+                <div class="lg:order-1 h-64 sm:h-80 rounded-2xl shadow-xl overflow-hidden border-2 border-neon-pink/50 bg-gray-900/30">
+                    <img src="images/2.png" alt="Influencer stratejisi görseli" class="w-full h-full object-cover object-top">
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="lg:order-1">
+                    <span class="text-sm font-bold uppercase header-nova">Küçük ve Orta Ölçekli İşletmeler</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold mt-2 mb-3 text-white">Hızlı ve Ölçülebilir Marka Büyümesi</h3>
+                    <p class="text-base sm:text-lg text-gray-400 mb-4">Pazarınızdaki rakiplerinizin ne yaptığını görün. Satışları doğrudan etkileyecek stratejiler oluşturun.</p>
+                    <a href="#fiyatlandirma" class="font-semibold header-nova hover:underline text-base">İşletme Çözümlerini Gör →</a>
+                </div>
+                <div class="lg:order-2 h-64 sm:h-80 rounded-2xl shadow-xl overflow-hidden border-2 border-neon-blue/50 bg-gray-900/30">
+                    <img src="images/1.png" alt="İşletme büyümesi görseli" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="lg:order-2">
+                    
+                    <span class="text-sm font-bold uppercase text-white">Öğrenciler ve Yeni Başlayanlar</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold mt-2 mb-3 text-white">Sıfırdan Başlayıp Uzman Olun</h3>
+                    <p class="text-base sm:text-lg text-gray-400 mb-4">Tahmin yürütme hatasına düşmeyin. AINOVA size adım adım neyi, nasıl yapacağınızı öğretir.</p>
+                    <a href="#fiyatlandirma" class="font-semibold text-white hover:underline text-base">Öğrenci Dostu Planlar →</a>
+                </div>
+                <div class="lg:order-1 h-64 sm:h-80 rounded-2xl shadow-xl overflow-hidden border-2 border-gray-700 bg-gray-900/30">
+                    <img src="images/3.png" alt="Öğrenciler ve yeni başlayanlar görseli" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section id="yorumlar" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-12 text-white">AINOVA İle Büyüyenlerin Hikayeleri</h2>
+        </div>
+        <div class="flex space-x-6 sm:space-x-8 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-4 scroll-container">
+            <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-neon-pink/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/ayse_profil.png" alt="Ayşe Yılmaz" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-neon-pink">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold neon-pink">Ayşe Yılmaz, Moda Influencerı</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"Tahminle post atmayı bıraktım. AINOVA sayesinde **etkileşimim %60 arttı**."</p>
+                <span class="text-xs text-gray-500">2 Ay Önce Yazıldı</span>
+            </div>
+            <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-neon-blue/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/mehmet_profil.jpg" alt="Mehmet Can" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-neon-blue">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold header-nova">Mehmet Can, E-Ticaret</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"Rakip analizleri paha biçilmez. Reklam bütçemizi düşürmemize rağmen **organik erişimimiz %40 yükseldi**."</p>
+                <span class="text-xs text-gray-500">1 Ay Önce Yazıldı</span>
+            </div>
+            <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-white/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/can_profil.jpg" alt="Can Tekin" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-white">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold text-white">Can Tekin, YouTube İçerik Üreticisi</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"Video fikirleri ve başlık önerileri harika. **İzlenme sürelerim %80 arttı**."</p>
+                <span class="text-xs text-gray-500">3 Hafta Önce Yazıldı</span>
+            </div>
+            <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-neon-pink/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/murat_profil.jpg" alt="Murat Vural" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-neon-pink">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold neon-pink">Murat Vural, Grafik Tasarımcı</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"AINOVA'nın renk paleti ve logo analizleri sayesinde müşterilerime daha iyi sunumlar yapıyorum."</p>
+                <span class="text-xs text-gray-500">1 Hafta Önce Yazıldı</span>
+            </div>
+             <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-neon-blue/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/selin_profil.png" alt="Selin Demir" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-neon-blue">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold header-nova">Selin Demir, Öğrenci</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"Okul projelerim için kullandım ve **sunumlarımda fark yarattım**. Artık ne yapacağımı biliyorum."</p>
+                <span class="text-xs text-gray-500">2 Gün Önce Yazıldı</span>
+            </div>
+            <div class="snap-center flex-shrink-0 w-72 sm:w-80 p-5 sm:p-6 bg-gray-800/80 rounded-2xl shadow-lg border border-white/50 transition duration-300 transform hover:translate-y-[-5px] hover:shadow-xl">
+                <div class="flex items-center mb-3">
+                    <img src="images/mehmet_profil.jpg" alt="Ozan Kurt" class="profile-pic w-10 h-10 sm:w-12 sm:h-12 mr-3 border border-white">
+                    <div><div class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</div><p class="text-xs sm:text-sm font-semibold text-white">Ozan Kurt, Müzisyen</p></div>
+                </div>
+                <p class="text-sm sm:text-lg italic text-gray-300 mb-3 leading-relaxed">"Şarkılarımın tanıtımında hangi hashtag'leri kullanmam gerektiğini AINOVA ile buldum."</p>
+                <span class="text-xs text-gray-500">5 Gün Önce Yazıldı</span>
+            </div>
+        </div>
+        <p class="text-center mt-8 text-sm text-gray-500">Daha fazla yorum için sağa/sola kaydırın →</p>
+    </section>
+
+    <section id="fiyatlandirma" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl sm:text-5xl font-extrabold mb-4 text-white">Size En Uygun Planı Seçin</h2>
+            
+            <div class="flex justify-center items-center space-x-4 mb-10">
+                <span class="text-lg font-semibold text-white duration-300" id="monthly-label">Aylık</span>
+                <label for="billing-toggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="checkbox" id="billing-toggle" class="sr-only">
+                        <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                        <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 transform"></div>
+                    </div>
+                </label>
+                <span class="text-lg font-semibold text-gray-500 duration-300" id="yearly-label">Yıllık <span class="text-xs text-gray-900 bg-neon-pink rounded-full px-2 py-0.5 ml-1">%20 İndirim!</span></span>
+            </div>
+            <p class="text-lg text-gray-500 mb-12 max-w-3xl mx-auto">Yıllık planda %20 tasarruf edin. Tahmin yürütmeye son verin.</p>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            
+            <div class="p-6 sm:p-8 border border-neon-blue/50 rounded-2xl shadow-lg bg-gray-900/80 transform hover:scale-[1.02] transition duration-300">
+                
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 neon-blue">7 Günlük Test</h3>
+                <p class="text-gray-400 mb-6">Risk almadan hızlı deneme.</p>
+                <p class="price-display text-4xl sm:text-5xl font-black mb-6" data-base-price="49" data-fixed="true">₺49 <span class="text-lg sm:text-xl font-medium text-gray-500">/tek</span></p>
+                
+                <ul class="text-left space-y-3 mb-8 text-gray-300 text-sm">
+                    <li class="flex items-center"><span class="neon-blue mr-2">✓</span> Tek Sosyal Hesap</li>
+                    <li class="flex items-center"><span class="neon-blue mr-2">✓</span> Temel Trend Raporu</li>
+                </ul>
+                
+                <a href="javascript:void(0)" class="add-to-cart block w-full py-3 h-12 bg-neon-blue text-gray-900 font-bold rounded-full hover:opacity-80 transition duration-300 flex items-center justify-center" 
+                   data-id="1" data-name="7 Günlük Test" data-price="49" data-image="images/plan_test.png" data-fixed="true">Sepete Ekle</a>
+            </div>
+
+            <div class="p-6 sm:p-8 border border-neon-blue/50 rounded-2xl shadow-lg bg-gray-900/80 transform hover:scale-[1.02] transition duration-300">
+                
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 text-white">Öğrenci</h3>
+                <p class="text-gray-400 mb-6">Yeni başlayanlar için.</p>
+                <p class="price-display text-4xl sm:text-5xl font-black mb-6" data-base-price="99">₺99 <span class="text-lg sm:text-xl font-medium text-gray-500">/ay</span></p>
+                
+                <ul class="text-left space-y-3 mb-8 text-gray-300 text-sm">
+                    <li class="flex items-center"><span class="header-nova mr-2">✓</span> Tek Sosyal Hesap</li>
+                    <li class="flex items-center"><span class="header-nova mr-2">✓</span> Haftalık Rapor</li>
+                </ul>
+
+                <a href="javascript:void(0)" class="add-to-cart block w-full py-3 h-12 bg-gray-700 text-white font-bold rounded-full hover:bg-gray-600 transition duration-300 flex items-center justify-center" 
+                   data-id="2" data-name="Öğrenci Paketi" data-price="99" data-image="images/plan_student.png">Sepete Ekle</a>
+            </div>
+
+            <div class="p-6 sm:p-8 border-4 border-neon-pink bg-gray-900/80 text-white rounded-2xl shadow-2xl md:scale-105 transform hover:scale-[1.02] transition duration-300">
+                
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 neon-pink">Profesyonel</h3>
+                <p class="text-gray-400 mb-6">Etkileşim odaklı.</p>
+                <p class="price-display text-4xl sm:text-5xl font-black mb-6" data-base-price="199">₺199 <span class="text-lg sm:text-xl font-medium text-gray-400">/ay</span></p>
+                
+                <ul class="text-left space-y-3 mb-8 text-gray-300 text-sm">
+                    <li class="flex items-center"><span class="neon-pink mr-2">✓</span> 3 Sosyal Hesap</li>
+                    <li class="flex items-center"><span class="neon-pink mr-2">✓</span> Sınırsız AI İçerik</li>
+                </ul>
+
+                <a href="javascript:void(0)" class="add-to-cart block w-full py-3 h-12 bg-neon-pink text-gray-900 font-bold rounded-full hover:opacity-80 transition duration-300 transform hover:scale-105 flex items-center justify-center" 
+                   data-id="3" data-name="Profesyonel Paket" data-price="199" data-image="images/plan_pro.png">Sepete Ekle</a>
+            </div>
+
+            <div class="p-6 sm:p-8 border border-neon-blue/50 rounded-2xl shadow-lg bg-gray-900/80 transform hover:scale-[1.02] transition duration-300">
+                
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 text-white">Kurumsal</h3>
+                <p class="text-gray-400 mb-6">Ölçülebilir büyüme.</p>
+                <p class="price-display text-4xl sm:text-5xl font-black mb-6" data-base-price="399">₺399 <span class="text-lg sm:text-xl font-medium text-gray-500">/ay</span></p>
+                
+                <ul class="text-left space-y-3 mb-8 text-gray-300 text-sm">
+                    <li class="flex items-center"><span class="header-nova mr-2">✓</span> Sınırsız Hesap</li>
+                    <li class="flex items-center"><span class="header-nova mr-2">✓</span> Ekip Yönetimi</li>
+                </ul>
+
+                <a href="javascript:void(0)" class="add-to-cart block w-full py-3 h-12 bg-gray-700 text-white font-bold rounded-full hover:bg-gray-600 transition duration-300 flex items-center justify-center" 
+                   data-id="4" data-name="Kurumsal Paket" data-price="399" data-image="images/plan_corp.png">Sepete Ekle</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="sss" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-12 text-white">Merak Ettikleriniz</h2>
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="accordion-item bg-gray-900/80 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <button class="accordion-header flex justify-between items-center w-full p-4 sm:p-6 text-base sm:text-xl font-bold text-white focus:outline-none hover:bg-gray-800 transition duration-300 h-16">
+                        <span>AINOVA Hangi Sosyal Medya Platformlarını Destekliyor?</span>
+                        <span class="accordion-icon neon-pink text-2xl transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content text-gray-400">
+                        <p class="pt-2 border-t border-gray-700">Başlangıçta Instagram, TikTok ve YouTube trendlerini analiz ediyoruz.</p>
+                    </div>
+                </div>
+                <div class="accordion-item bg-gray-900/80 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <button class="accordion-header flex justify-between items-center w-full p-4 sm:p-6 text-base sm:text-xl font-bold text-white focus:outline-none hover:bg-gray-800 transition duration-300 h-16">
+                        <span>AINOVA Yaratıcılığımın Yerini Alıyor mu?</span>
+                        <span class="accordion-icon neon-pink text-2xl transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content text-gray-400">
+                        <p class="pt-2 border-t border-gray-700">Hayır. Size ne hakkında ve ne zaman paylaşım yapmanız gerektiğini söyler, içerik üretimi size aittir.</p>
+                    </div>
+                </div>
+                <div class="accordion-item bg-gray-900/80 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <button class="accordion-header flex justify-between items-center w-full p-4 sm:p-6 text-base sm:text-xl font-bold text-white focus:outline-none hover:bg-gray-800 transition duration-300 h-16">
+                        <span>Veri güvenliğim nasıl sağlanıyor?</span>
+                        <span class="accordion-icon neon-pink text-2xl transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content text-gray-400">
+                        <p class="pt-2 border-t border-gray-700">Verileriniz endüstri standardı şifreleme yöntemleriyle korunur ve asla üçüncü partilerle paylaşılmaz. Güvenliğiniz bizim için en öncelikli konudur.</p>
+                    </div>
+        </div>
+                <div class="accordion-item bg-gray-900/80 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <button class="accordion-header flex justify-between items-center w-full p-4 sm:p-6 text-base sm:text-xl font-bold text-white focus:outline-none hover:bg-gray-800 transition duration-300 h-16">
+                        <span>Aboneliğimi istediğim zaman iptal edebilir miyim?</span>
+                        <span class="accordion-icon neon-pink text-2xl transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content text-gray-400">
+                        <p class="pt-2 border-t border-gray-700">Evet, aboneliğinizi hiçbir ek ücret ödemeden dilediğiniz zaman iptal edebilirsiniz.</p>
+                    </div>
+                </div>
+                <div class="accordion-item bg-gray-900/80 rounded-xl shadow-md overflow-hidden transition-all duration-300">
+                    <button class="accordion-header flex justify-between items-center w-full p-4 sm:p-6 text-base sm:text-xl font-bold text-white focus:outline-none hover:bg-gray-800 transition duration-300 h-16">
+                        <span>Hangi ödeme yöntemlerini kabul ediyorsunuz?</span>
+                        <span class="accordion-icon neon-pink text-2xl transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content text-gray-400">
+                        <p class="pt-2 border-t border-gray-700">Tüm yaygın kredi kartlarını (Visa, MasterCard, American Express) ve banka kartlarını kabul ediyoruz. Güvenli ödeme altyapımız ile işlemleriniz güvendedir.</p>
+                    </div>
+                </div>        
+            </div>
+        </div>
+    </section>
+
+<!-- AI Robot Toggle Butonu -->
+<button id="ai-robot-toggle" class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center text-white text-2xl z-50 hover:scale-110 transition-all duration-300">
+    🤖
+</button>
+
+<!-- AI Robot Chat Penceresi -->
+<div id="ai-robot-window" class="fixed bottom-24 right-6 w-80 h-96 bg-gray-900/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 hidden z-50 overflow-hidden">
+    <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+        <h3 class="text-white font-bold">AINOVA AI Asistan</h3>
+        <button id="close-robot" class="text-gray-400 hover:text-white text-xl">&times;</button>
+    </div>
+    <div id="robot-messages" class="flex-1 p-4 overflow-y-auto h-64"></div>
+    <form id="robot-form" class="p-4 border-t border-gray-700">
+        <div class="flex gap-2">
+            <input type="text" id="robot-input" placeholder="Soru sorun..." class="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-600 focus:border-cyan-500 outline-none">
+            <button type="submit" class="bg-gradient-to-r from-cyan-500 to-pink-500 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">Gönder</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+    <footer class="bg-gray-900/80 pt-8 pb-4 border-t border-gray-800 text-gray-400 text-sm">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                
+                <div class="col-span-2 md:col-span-1">
+                    <a href="#" class="text-2xl font-extrabold text-white block mb-4">
+                        AI<span class="text-neon-blue">NOVA</span>
+                    </a>
+                    <p class="mb-4">İşletmenizin geleceğini verilerle bugünden inşa edin. YBS tabanlı, yapay zeka destekli büyüme ortağınız.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">LinkedIn</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">Twitter</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">Instagram</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase">Ürün</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#ozellikler" class="hover:text-neon-pink transition">Özellikler</a></li>
+                        <li><a href="#fiyatlandirma" class="hover:text-neon-pink transition">Fiyatlandırma</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase">Kaynaklar</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-neon-blue transition">Blog</a></li>
+                        <li><a href="#yorumlar" class="hover:text-neon-blue transition">Başarı Hikayeleri</a></li>
+                        <li><a href="#sss" class="hover:text-neon-blue transition">Yardım Merkezi</a></li>
+                    
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase">Bülten</h4>
+                    <p class="mb-4 text-xs">Yeni AI trendlerinden haberdar olmak için kaydolun.</p>
+                    <form action="#" class="flex flex-col space-y-2">
+                        <input type="email" placeholder="E-mail adresi" class="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded focus:outline-none focus:border-neon-blue">
+                        <button class="bg-neon-blue text-gray-900 font-bold px-4 py-2 rounded hover:opacity-90 transition">Abone Ol</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2025 AINOVA A.Ş. Tüm Hakları Saklıdır.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Gizlilik Politikası</a>
+                    <a href="#" class="hover:text-white">Kullanım Şartları</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-modal" class="fixed inset-0 z-[60] hidden">
+        <div id="cart-overlay" class="absolute inset-0 bg-black bg-opacity-70 transition-opacity"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-gray-900 shadow-2xl border-l border-gray-700 transform transition-transform duration-300 translate-x-full" id="cart-panel">
+            <div class="flex flex-col h-full p-6">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+                    <h2 class="text-2xl font-bold text-white">Alışveriş Sepeti</h2>
+                    <button id="close-cart-btn" class="text-gray-400 hover:text-white">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div id="cart-items" class="flex-1 overflow-y-auto space-y-4">
+                    <div class="text-center text-gray-500 mt-10">Sepetiniz boş.</div>
+                </div>
+                <div class="border-t border-gray-700 pt-6 mt-4">
+                    <div class="flex justify-between items-center mb-4 text-xl font-bold text-white">
+                        <span>Toplam:</span>
+                        <span id="cart-total">₺0</span>
+                    </div>
+                    <button id="checkout-btn" class="w-full py-4 bg-neon-pink text-white font-bold rounded-xl hover:opacity-90 transition">
+                        Ödemeyi Tamamla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script src="script.js"></script>
+    
+    <!-- Chat Bot Fonksiyonları -->
+    
+    <!-- Chart.js Başlatma -->
+    <script>
+        // Sayfa yüklendiğinde grafik oluştur
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('performance-chart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'],
+                        datasets: [{
+                            label: 'Etkileşim Oranı (%)',
+                            data: [45, 52, 68, 71, 75, 82],
+                            borderColor: '#00BFFF',
+                            backgroundColor: 'rgba(0, 191, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Müşteri Memnuniyeti (%)',
+                            data: [65, 70, 72, 78, 85, 90],
+                            borderColor: '#FF00AA',
+                            backgroundColor: 'rgba(255, 0, 170, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#fff'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        
+        // PDF İndirme butonu
+        document.getElementById('download-pdf-btn')?.addEventListener('click', () => {
+            alert('📄 PDF Rapor hazırlanıyor ve e-postanıza gönderilecek!');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai/dist/index.min.js"></script>
+    <script type="module" src="ai-bot.js"></script>
+</body>
+</html>
